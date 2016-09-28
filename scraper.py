@@ -6,6 +6,7 @@ req = requests.Session()
 
 DB_FILE = 'data.sqlite'
 conn = sqlite3.connect(DB_FILE)
+c = conn.cursor()
 
 headers = {'User-Agent':'Gathering some stats', 'Accept-Encoding': 'gzip', 'Content-Encoding': 'gzip'}
 
@@ -36,14 +37,12 @@ for team in teamYears:
         teamLog = json.loads(data.text)
         season = teamLog['parameters']['Season']
         for row in teamLog['resultSets'][0]['rowSet']:
-            games[row[1]] = season
-
-            site = req.get(gameInfo.format(game),headers=headers)
+            site = req.get(gameInfo.format(row[1]),headers=headers)
             data = json.loads(site.text)
             team = data['resultSets'][1]['rowSet']
             
             teamData = {
-                'season' = games[game]
+                'season':season,
                 'game_id':team[0][0],
                 'team_A_team_id':team[0][1],
                 'team_A_team_name':team[0][2],
@@ -96,6 +95,6 @@ for team in teamYears:
                 }
             
             print(teamData['game_id'])
-            c.execute('INSERT INTO data VALUES (?)', [json.dumps(gameData)])
+            c.execute('INSERT INTO data VALUES (?)', [json.dumps(teamData)])
         conn.commit()
 c.close()
