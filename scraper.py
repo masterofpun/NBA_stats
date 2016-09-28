@@ -28,7 +28,7 @@ for team in teamYears:
     minYear = int(team[2])
     maxYear = int(team[3])
     year = minYear
-    if teamId == 1610612738:
+    if teamId == 1610612737:
             continue
         
     while year+1<=maxYear:
