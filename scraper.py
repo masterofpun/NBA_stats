@@ -93,8 +93,7 @@ for team in teamYears:
                 'team_B_pts':team[1][23],
                 'team_B_plus_minus':team[1][24]
                 }
-            
-            print(teamData['game_id'])
             c.execute('INSERT INTO data VALUES (?)', [json.dumps(teamData)])
         conn.commit()
+        print(teamId,season)
 c.close()
