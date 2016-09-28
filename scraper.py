@@ -28,10 +28,15 @@ for team in teamYears:
     minYear = int(team[2])
     maxYear = int(team[3])
     year = minYear
-    
+    if teamId == 1610612738:
+            continue
+        
     while year+1<=maxYear:
         link = teamLogUrl.format(str(teamId),str(year),str(year+1)[2:])
         year = year+1
+        
+        if teamId == 1610612738 and year<=1949:
+            continue
         
         data = req.get(link,headers=headers)
         teamLog = json.loads(data.text)
